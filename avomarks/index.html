@@ -6,150 +6,134 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Avomarks">
-<meta name="theme-color" content="#ffffff">
-<title>Avomarks · Espace client Molko Design</title>
+<meta name="theme-color" content="#f5f5f7">
+<title>Avomarks · Molko Design</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Playfair+Display:ital,wght@1,500&family=Raleway:wght@400;500;600&display=swap">
 <style>
-/* Espace client Molko Design : en-tête de marque, compteur du calendrier annoncé, puis sections empilées en cartes blanches sur fond lilas */
+/* Suivi client : titre large, anneau de progression, sélecteur Semaine / Mois, listes groupées à filets fins */
 :root{
-  --bg:#f6f4ff; --surface:#ffffff; --ink:#0d0a1a; --muted:#6b6680; --line:#e7e2f5;
-  --violet:#7a3ff2; --deep:#2a0e63; --lilac:#ece6ff;
-  --ok:#1f9d5c; --sched:#7a3ff2; --prep:#9a95ad; --dec:#c47a00;
-  --title:"Montserrat",system-ui,sans-serif; --accent:"Playfair Display",Georgia,serif; --body:"Raleway",system-ui,-apple-system,sans-serif;
+  --bg:#f5f5f7; --card:#ffffff; --ink:#111015; --sub:#6e6b78; --faint:#a9a6b3; --hair:rgba(17,16,21,.09);
+  --violet:#7a3ff2; --deep:#2a0e63; --amber:#b86e00; --amber-bg:#fdf3e3;
+  --title:"Montserrat",-apple-system,system-ui,sans-serif; --accent:"Playfair Display",Georgia,serif; --body:"Raleway",-apple-system,system-ui,sans-serif;
 }
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
 [hidden]{display:none!important}
 button,input{font:inherit;color:inherit}
-.wrap{max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(48px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.brand{display:flex;justify-content:space-between;align-items:center;font-family:var(--title);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--deep)}
-.brand span{color:var(--muted);font-weight:600;letter-spacing:.06em}
-h1{font-family:var(--title);font-weight:700;font-size:clamp(30px,7vw,40px);line-height:1.05;letter-spacing:-.01em;margin:18px 0 6px;text-wrap:balance}
-h1 em,h2 em{font-family:var(--accent);font-style:italic;font-weight:500;color:var(--violet)}
-.maj{color:var(--muted);font-size:14px}
-h2{font-family:var(--title);font-weight:700;font-size:20px;margin:34px 0 12px;letter-spacing:-.005em}
-.card{background:var(--surface);border-radius:18px;padding:18px;box-shadow:0 1px 0 rgba(42,14,99,.04)}
-.note{color:var(--muted);font-size:14px;margin:8px 4px 0}
+button{background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:6px}
+.wrap{max-width:640px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 
-/* Compteur */
-.hero{background:var(--deep);color:#fff;border-radius:22px;padding:22px;margin-top:22px}
-.hero .big{font-family:var(--title);font-weight:700;font-size:48px;line-height:1;font-variant-numeric:tabular-nums}
-.hero .big small{font-size:22px;opacity:.6}
-.hero p{margin:6px 0 16px;opacity:.85}
-.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.14)}
-.bar i{display:block;height:100%}
-.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:14px}
-.legend span{display:flex;align-items:center;gap:7px}
-.legend b{font-family:var(--title);font-variant-numeric:tabular-nums}
-.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+/* En-tête */
+.top{display:flex;justify-content:space-between;align-items:center;font-family:var(--title);font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--sub)}
+.top b{color:var(--ink)}
+h1{font-family:var(--title);font-weight:700;font-size:34px;letter-spacing:-.015em;line-height:1.05;margin:10px 0 0}
+h1 em{font-family:var(--accent);font-style:italic;font-weight:500;color:var(--violet)}
+.maj{font-size:13px;color:var(--sub);margin-top:6px}
 
-/* Semaines */
-.week{margin-top:10px}
-.week h3{font-family:var(--title);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 4px 8px;font-weight:600}
-.item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
-.item:first-child{border-top:0;padding-top:2px}
-.item:last-child{padding-bottom:2px}
-.ic{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:14px;font-weight:700}
-.ic.publie{background:var(--ok);color:#fff}
-.ic.programme{background:var(--lilac);color:var(--violet)}
-.ic.preparation{border:1.5px dashed var(--prep);color:var(--prep)}
-.ic.decale{background:#fff2dc;color:var(--dec)}
-.item .t{flex:1;min-width:0}
-.item .t b{display:block;font-weight:600}
-.item .t small{color:var(--muted);font-size:13px}
-.item .st{font-size:12px;font-weight:600;white-space:nowrap;text-align:right}
-.st.publie{color:var(--ok)}.st.programme{color:var(--violet)}.st.preparation{color:var(--prep)}.st.decale{color:var(--dec)}
+/* Synthèse */
+.sum{display:flex;align-items:center;gap:20px;background:var(--card);border-radius:20px;padding:20px;margin-top:20px}
+.ring{width:96px;height:96px;flex:none;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--title);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums}
+.sum .txt{min-width:0}
+.sum .n{font-family:var(--title);font-weight:700;font-size:26px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.sum .n span{color:var(--faint);font-weight:600}
+.sum .l{color:var(--sub);font-size:14px;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--bg);color:var(--sub);font-variant-numeric:tabular-nums}
+.chip i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.v{color:var(--violet)} .chip.a{color:var(--amber)}
 
-/* Volume */
-.vol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.vol .card b{font-family:var(--title);font-size:34px;line-height:1;display:block;font-variant-numeric:tabular-nums}
-.vol .card span{color:var(--muted);font-size:14px}
+/* Segmented */
+.seg{display:flex;background:rgba(118,118,128,.12);border-radius:9px;padding:2px;margin:26px 0 0}
+.seg button{flex:1;padding:7px 0;border-radius:7px;font-family:var(--title);font-size:13px;font-weight:600;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.1),0 0 0 .5px rgba(0,0,0,.04)}
 
-/* Prochaines */
-.next{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;max-width:100%}
-.nx{flex:none;width:150px;scroll-snap-align:start}
-.nx .img{aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--lilac);display:grid;place-items:center;color:var(--violet);font-family:var(--title);font-weight:700;font-size:13px;text-align:center;padding:10px;max-width:100%}
-.nx .img img{width:100%;height:100%;object-fit:cover;display:block}
-.nx b{display:block;font-size:14px;font-weight:600;margin-top:8px;line-height:1.25}
-.nx small{color:var(--muted);font-size:13px}
+/* Listes groupées */
+.h{font-family:var(--title);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin:24px 16px 8px;display:flex;justify-content:space-between}
+.h span{letter-spacing:0;text-transform:none;font-family:var(--body);font-weight:500}
+.group{background:var(--card);border-radius:14px;overflow:hidden}
+.row{display:flex;align-items:center;gap:14px;padding:12px 16px;position:relative;min-height:56px}
+.row+.row::before{content:"";position:absolute;top:0;left:72px;right:0;border-top:.5px solid var(--hair)}
+.day{width:42px;flex:none;text-align:center;line-height:1}
+.day small{display:block;font-family:var(--title);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--sub);text-transform:uppercase}
+.day b{display:block;font-family:var(--title);font-size:21px;font-weight:600;margin-top:3px;font-variant-numeric:tabular-nums}
+.row .t{flex:1;min-width:0}
+.row .t b{display:block;font-weight:600;font-size:15.5px;line-height:1.3}
+.row .t small{display:block;color:var(--sub);font-size:13px;margin-top:2px}
+.row .t small .a{color:var(--amber);font-weight:600}
+.st{width:24px;height:24px;flex:none;display:grid;place-items:center}
+.st svg{width:24px;height:24px}
+.row.done .t b{color:var(--sub)}
+.empty{padding:16px;color:var(--sub);font-size:14px}
 
-/* Feed */
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;border-radius:16px;overflow:hidden;background:var(--surface)}
-.grid div{position:relative;aspect-ratio:4/5;max-width:100%;background:var(--lilac)}
-.grid img{width:100%;height:100%;object-fit:cover;display:block}
-.grid .soon{position:absolute;left:6px;bottom:6px;background:rgba(42,14,99,.82);color:#fff;font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px}
-.grid svg{position:absolute;top:7px;right:7px;width:18px;height:18px;color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+/* Visuels */
+.vis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;border-radius:14px;overflow:hidden;background:var(--card)}
+.vis div{position:relative;aspect-ratio:4/5;max-width:100%;background:#ece9f3}
+.vis img{width:100%;height:100%;object-fit:cover;display:block}
+.vis span{position:absolute;left:6px;bottom:6px;font-size:11px;font-weight:600;color:#fff;background:rgba(17,16,21,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:6px;padding:2px 7px}
+.vis svg{position:absolute;top:7px;right:7px;width:17px;height:17px;color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
 
-/* Attentes */
-.ask{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
-.ask:first-child{border-top:0;padding-top:2px}
-.ask:last-child{padding-bottom:2px}
-.ask .ic{background:#fff2dc;color:var(--dec)}
-.ask b{display:block;font-weight:600}
-.ask small{color:var(--muted);font-size:13px}
+/* À fournir */
+.need .ico{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--title);font-weight:700;font-size:14px;background:var(--amber-bg);color:var(--amber)}
+.need .ico.opt{background:#f1ebff;color:var(--violet)}
+.need.row+.need.row::before{left:60px}
 
-/* Documents */
-.doc{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
-.doc img{width:96px;border-radius:8px;border:1px solid var(--line);flex:none}
-.doc b{display:block;font-weight:600}
-.doc small{color:var(--muted);font-size:13px}
-.doc .go{margin-left:auto;color:var(--violet);font-weight:600;font-size:14px;white-space:nowrap}
+/* Document */
+a.row{text-decoration:none;color:inherit}
+.pdf{width:30px;height:38px;border-radius:5px;background:#f1ebff;color:var(--violet);display:grid;place-items:center;font-family:var(--title);font-size:9px;font-weight:700;letter-spacing:.06em;flex:none}
+.chev{color:var(--faint);font-size:22px;line-height:1}
 
-/* Code d'accès */
-.gate{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));text-align:center}
-.gate .box{width:100%;max-width:360px}
-.gate h1{font-size:30px;margin:14px 0 8px}
-.gate p{color:var(--muted);margin:0 0 22px}
-.gate input{width:100%;padding:15px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);font-size:20px;text-align:center;letter-spacing:.2em;outline:none}
-.gate input:focus{border-color:var(--violet)}
-.gate button{width:100%;margin-top:12px;padding:15px;border:0;border-radius:14px;background:var(--deep);color:#fff;font-family:var(--title);font-weight:700;font-size:16px;cursor:pointer}
+.foot{margin-top:34px;text-align:center;color:var(--sub);font-size:13px;line-height:1.6}
+.foot button{color:var(--violet);font-size:13px}
+
+/* Accès */
+.gate{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px max(20px,env(safe-area-inset-right,0px)) 24px max(20px,env(safe-area-inset-left,0px))}
+.gate .box{width:100%;max-width:340px;text-align:center}
+.gate .mk{font-family:var(--title);font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--sub)}
+.gate h1{font-size:30px;margin:12px 0 6px}
+.gate p{color:var(--sub);font-size:15px;margin:0 0 26px}
+.gate input{width:100%;padding:15px 16px;border-radius:12px;border:0;background:var(--card);box-shadow:0 0 0 .5px var(--hair);font-size:17px;text-align:center;outline:none}
+.gate input:focus{box-shadow:0 0 0 2px var(--violet)}
+.gate .go{width:100%;margin-top:10px;padding:15px;border-radius:12px;background:var(--ink);color:#fff;font-family:var(--title);font-weight:600;font-size:16px}
+.gate .go[disabled]{opacity:.6}
 .gate .err{color:#c0362c;font-size:14px;margin-top:12px;min-height:20px}
-.foot{margin-top:40px;text-align:center;color:var(--muted);font-size:13px}
-.foot a{color:var(--violet)}
-:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.ring circle.p{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}}
 </style>
 </head>
 <body>
 
 <div class="gate" id="gate">
   <div class="box">
-    <div class="brand" style="justify-content:center">MOLKO DESIGN</div>
-    <h1>Espace <em>Avomarks</em></h1>
-    <p>Saisis le code d'accès transmis par Molko Design.</p>
+    <div class="mk">MOLKO DESIGN</div>
+    <h1>Suivi <em>Avomarks</em></h1>
+    <p>Saisissez votre code d'accès.</p>
     <form id="gateForm">
-      <input id="code" type="password" inputmode="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="current-password" aria-label="Code d'accès" placeholder="Code">
-      <button type="submit" id="go">Accéder</button>
+      <input id="code" type="password" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="current-password" aria-label="Code d'accès" placeholder="Code d'accès">
+      <button type="submit" class="go" id="go">Continuer</button>
     </form>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div class="wrap" id="app" hidden>
-  <div class="brand">MOLKO DESIGN × AVOMARKS<span id="moisTag"></span></div>
-  <h1 id="title">Suivi de <em>novembre</em></h1>
+  <div class="top"><b>AVOMARKS</b><span>MOLKO DESIGN</span></div>
+  <h1 id="title"></h1>
   <div class="maj" id="maj"></div>
 
-  <div class="hero" id="hero"></div>
+  <div class="sum" id="sum"></div>
 
-  <h2>Calendrier <em>annoncé</em></h2>
-  <div id="weeks"></div>
-  <p class="note">Le calendrier envoyé en début de mois sert de référence. Si un contenu doit être déplacé, il reste dans sa semaine d'origine avec sa nouvelle date.</p>
+  <div class="seg" role="group" aria-label="Période"><button type="button" id="sWeek" aria-pressed="true">Cette semaine</button><button type="button" id="sMonth" aria-pressed="false">Tout le mois</button></div>
+  <div id="list"></div>
 
-  <h2>Volume <em>livré</em></h2>
-  <div class="vol" id="vol"></div>
-  <p class="note" id="devis"></p>
+  <section id="needSec"><div class="h">À nous transmettre</div><div class="group" id="need"></div></section>
+  <section id="visSec"><div class="h">Visuels<span id="visNote"></span></div><div class="vis" id="vis"></div></section>
+  <section id="docSec"><div class="h">Document</div><div class="group" id="doc"></div></section>
 
-  <section id="nextSec"><h2>Prochaines <em>publications</em></h2><div class="next" id="next"></div></section>
-
-  <section id="feedSec"><h2>Aperçu du <em>feed</em></h2><div class="grid" id="feed"></div></section>
-
-  <section id="askSec"><h2>Ce qu'on attend <em>de vous</em></h2><div class="card" id="asks"></div></section>
-
-  <section id="docSec"><h2><em>Documents</em></h2><div id="docs"></div></section>
-
-  <div class="foot">Molko Design · <span>contact@molkodesign.ch</span><br><a href="#" id="logout">Se déconnecter</a></div>
+  <div class="foot">Molko Design · contact@molkodesign.ch<br><button type="button" id="logout">Se déconnecter</button></div>
 </div>
 
 <script>
@@ -157,77 +141,98 @@ h2{font-family:var(--title);font-weight:700;font-size:20px;margin:34px 0 12px;le
 const $=s=>document.querySelector(s);
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
 const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
-const fmt=s=>{if(!s)return"";const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})};
-const fmtD=s=>{if(!s)return"";const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})};
+const pd=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const fD=s=>s?pd(s).toLocaleDateString("fr-FR",{day:"numeric",month:"short"}):"";
+const pad=n=>String(n).padStart(2,"0");
+const todayIso=(()=>{const d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())})();
 const LBL={publie:"Publié",programme:"Programmé",preparation:"En préparation",decale:"Décalé"};
-const ICO={publie:"✓",programme:"◷",preparation:"",decale:"→"};
+const SVG={
+  publie:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#7a3ff2"/><path d="M7 12.4l3.2 3.1L17 8.8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  programme:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#7a3ff2" stroke-width="1.6"/><path d="M12 7v5l3 2" fill="none" stroke="#7a3ff2" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  preparation:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#c8c5d0" stroke-width="1.6" stroke-dasharray="3 3"/></svg>',
+  decale:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#fdf3e3"/><path d="M8 12h8m-3-3l3 3-3 3" fill="none" stroke="#b86e00" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
 const STORE="molko-avomarks-code";
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+let D=null,mode="week";
 
-async function decrypt(pack,code){
+async function decrypt(p,code){
   const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(code),"PBKDF2",false,["deriveKey"]);
-  const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(pack.salt),iterations:pack.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
-  const buf=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(pack.iv)},key,b64(pack.data));
-  return JSON.parse(new TextDecoder().decode(buf));
+  const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(p.salt),iterations:p.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+  return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(p.iv)},key,b64(p.data))));
 }
-let pack=null;
-async function getPack(){if(pack)return pack;const r=await fetch("data.enc.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("fetch");pack=await r.json();return pack}
 async function unlock(code,silent){
   $("#err").textContent="";$("#go").disabled=true;$("#go").textContent="Ouverture…";
-  try{const p=await getPack();const data=await decrypt(p,code);try{localStorage.setItem(STORE,code)}catch(e){}render(data);$("#gate").hidden=true;$("#app").hidden=false}
-  catch(e){if(!silent)$("#err").textContent=e&&e.message==="fetch"?"Impossible de charger le suivi. Vérifie ta connexion et réessaie.":"Code incorrect.";try{if(silent)localStorage.removeItem(STORE)}catch(_){}}
-  finally{$("#go").disabled=false;$("#go").textContent="Accéder"}
+  try{
+    if(!window.crypto||!crypto.subtle)throw new Error("insecure");
+    const r=await fetch("data.enc.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("fetch");
+    D=await decrypt(await r.json(),code);try{localStorage.setItem(STORE,code)}catch(e){}
+    render();$("#gate").hidden=true;$("#app").hidden=false;window.scrollTo(0,0);
+  }catch(e){
+    if(silent){try{localStorage.removeItem(STORE)}catch(_){}}
+    else $("#err").textContent=e.message==="fetch"?"Chargement impossible. Vérifiez votre connexion.":e.message==="insecure"?"Ouvrez le lien en https:// pour accéder au suivi.":"Code incorrect.";
+  }finally{$("#go").disabled=false;$("#go").textContent="Continuer"}
 }
 $("#gateForm").addEventListener("submit",e=>{e.preventDefault();const c=$("#code").value.trim().toLowerCase().replace(/\s+/g,"");if(c)unlock(c,false)});
-$("#logout").addEventListener("click",e=>{e.preventDefault();try{localStorage.removeItem(STORE)}catch(_){}location.reload()});
-try{const saved=localStorage.getItem(STORE);if(saved)unlock(saved,true)}catch(e){}
+$("#logout").addEventListener("click",()=>{try{localStorage.removeItem(STORE)}catch(_){}location.reload()});
+$("#sWeek").addEventListener("click",()=>{mode="week";renderList()});
+$("#sMonth").addEventListener("click",()=>{mode="month";renderList()});
+try{const s=localStorage.getItem(STORE);if(s)unlock(s,true)}catch(e){}
 
-function render(d){
-  const [y,m]=d.mois.split("-").map(Number);
-  $("#title").textContent="";$("#title").append("Suivi de ",el("em",null,MOIS[m-1]));
-  $("#moisTag").textContent=MOIS[m-1]+" "+y;
-  const maj=new Date(d.maj);$("#maj").textContent="Mis à jour le "+maj.toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+" à "+maj.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}).replace(":"," h ");
-  const c=d.compteur,total=c.publie+c.programme+c.decale+c.preparation;
-  const h=$("#hero");h.textContent="";
-  const big=el("div","big");big.append(String(c.publie),el("small",null," / "+total));
-  h.append(big,el("p",null,"contenus du calendrier publiés comme annoncé"));
-  const bar=el("div","bar");[["publie","var(--ok)"],["programme","#b69bff"],["decale","#f0b45a"]].forEach(([k,col])=>{const i=el("i");i.style.width=(total?c[k]/total*100:0)+"%";i.style.background=col;bar.append(i)});h.append(bar);
-  const lg=el("div","legend");[["publie","Publiés","var(--ok)"],["programme","Programmés","#b69bff"],["decale","Décalés","#f0b45a"],["preparation","En préparation","rgba(255,255,255,.35)"]].forEach(([k,l,col])=>{if(k==="decale"&&!c[k])return;const s=el("span");const dt=el("i","dot");dt.style.background=col;s.append(dt,el("b",null,c[k]),document.createTextNode(" "+l.toLowerCase()));lg.append(s)});h.append(lg);
+function render(){
+  const[y,m]=D.mois.split("-").map(Number);
+  const t=$("#title");t.textContent="";t.append(el("em",null,MOIS[m-1][0].toUpperCase()+MOIS[m-1].slice(1))," "+y);
+  const mj=new Date(D.maj);$("#maj").textContent="Mis à jour le "+mj.toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+" à "+mj.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}).replace(":"," h ");
 
-  const W=$("#weeks");W.textContent="";
-  d.semaines.forEach(w=>{
-    const box=el("div","week");box.append(el("h3",null,w.nom+" · "+w.dates));const card=el("div","card");
-    w.items.forEach(it=>{const r=el("div","item");r.append(el("span","ic "+it.statut,ICO[it.statut]));
-      const t=el("div","t");t.append(el("b",null,it.titre));
-      let sub=it.format+(it.bonus?" · bonus":"");if(it.statut==="decale"&&it.decale){sub+=" · nouvelle date : "+fmtD(it.decale.au);if(it.decale.motif)sub+=" · "+it.decale.motif}
-      else if(it.date&&it.statut!=="preparation")sub+=" · "+fmt(it.date);
-      t.append(el("small",null,sub));r.append(t,el("span","st "+it.statut,LBL[it.statut]));card.append(r)});
-    box.append(card);W.append(box)});
+  const c=D.compteur,total=c.publie+c.programme+c.decale+c.preparation,pct=total?Math.round(c.publie/total*100):0;
+  const S=$("#sum");S.textContent="";
+  const R=2*Math.PI*42;const ring=el("div","ring");
+  ring.innerHTML='<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#efeaf9" stroke-width="10"/><circle class="p" cx="50" cy="50" r="42" fill="none" stroke="#7a3ff2" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+R+'" stroke-dashoffset="'+R+'"/></svg>';
+  ring.append(el("div","pct",pct+" %"));
+  const tx=el("div","txt");const n=el("div","n");n.append(String(c.publie),el("span",null," / "+total));
+  tx.append(n,el("div","l","contenus publiés comme annoncé"));
+  const ch=el("div","chips");
+  const chip=(cls,txt)=>{const s=el("span","chip "+cls);s.append(el("i"),document.createTextNode(txt));ch.append(s)};
+  if(c.programme)chip("v",c.programme+" programmés");if(c.decale)chip("a",c.decale+" décalé"+(c.decale>1?"s":""));if(c.preparation)chip("",c.preparation+" en préparation");
+  tx.append(ch);S.append(ring,tx);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ring.querySelector(".p").style.strokeDashoffset=R*(1-pct/100)}));
+  S.setAttribute("aria-label",c.publie+" contenus publiés sur "+total);
 
-  const v=$("#vol");v.textContent="";
-  [[d.volume.feed,"publications dans le feed"],[d.volume.stories,"stories publiées"]].forEach(([n,l])=>{const cc=el("div","card");cc.append(el("b",null,n),el("span",null,l));v.append(cc)});
-  $("#devis").textContent="Prévu au devis : "+d.volume.devis+". "+d.volume.feedPrevu+" publications dans le feed sont planifiées ce mois-ci.";
+  renderList();
 
-  const N=$("#next");N.textContent="";$("#nextSec").hidden=!d.prochaines.length;
-  d.prochaines.forEach(p=>{const x=el("div","nx");const im=el("div","img");if(p.image){const i=el("img");i.src=p.image;i.alt="";im.append(i)}else im.textContent=p.format;
-    x.append(im,el("b",null,p.titre),el("small",null,p.format+" · "+fmt(p.date)+(p.heure?" · "+p.heure.replace(":"," h "):"")));N.append(x)});
+  const N=$("#need");N.textContent="";$("#needSec").hidden=!D.attentes.length;
+  D.attentes.forEach(a=>{const opt=/^facultatif/i.test(a.detail||"");const r=el("div","row need");r.append(el("span","ico"+(opt?" opt":""),opt?"+":"!"));
+    const t2=el("div","t");t2.append(el("b",null,a.texte));const sub=[a.echeance?"Avant le "+fD(a.echeance):"",a.detail].filter(Boolean).join(" · ");if(sub)t2.append(el("small",null,sub));r.append(t2);N.append(r)});
 
-  const F=$("#feed");F.textContent="";$("#feedSec").hidden=!d.feed.length;
-  d.feed.forEach(f=>{const cell=el("div");const i=el("img");i.src=f.image;i.alt="";cell.append(i);
+  const V=$("#vis");V.textContent="";$("#visSec").hidden=!D.feed.length;
+  $("#visNote").textContent=D.feed.length?D.feed.filter(f=>f.publie).length+" publiés · "+D.feed.filter(f=>!f.publie).length+" à venir":"";
+  D.feed.forEach(f=>{const cell=el("div");const i=el("img");i.src=f.image;i.alt="";cell.append(i);
     if(f.format==="reel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.5v7l6-3.5z" fill="currentColor"/></svg>');
     if(f.format==="carrousel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2.5"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>');
-    if(!f.publie)cell.append(el("span","soon",fmtD(f.date)));F.append(cell)});
+    if(!f.publie)cell.append(el("span",null,fD(f.date)));V.append(cell)});
 
-  const A=$("#asks");A.textContent="";$("#askSec").hidden=!d.attentes.length;
-  d.attentes.forEach(a=>{const r=el("div","ask");const opt=/^facultatif/i.test(a.detail||"");const ic=el("span","ic",opt?"+":"!");if(opt){ic.style.background="var(--lilac)";ic.style.color="var(--violet)"}r.append(ic);const t=el("div");t.append(el("b",null,a.texte));
-    const sub=[a.echeance?"Avant le "+fmtD(a.echeance):"",a.detail].filter(Boolean).join(" · ");if(sub)t.append(el("small",null,sub));r.append(t);A.append(r)});
+  const Dc=$("#doc");Dc.textContent="";$("#docSec").hidden=!D.documents.length;
+  D.documents.forEach(d=>{const a=el("a","row");a.href="#";a.append(el("span","pdf","PDF"));const t3=el("div","t");t3.append(el("b",null,d.titre),el("small",null,(d.sousTitre||"").split(" · ")[0]));a.append(t3,el("span","chev","›"));
+    a.addEventListener("click",async e=>{e.preventDefault();const src=d.pdf||d.image;if(!src)return;const u=URL.createObjectURL(await (await fetch(src)).blob());const w=window.open(u,"_blank");if(!w)location.href=u});Dc.append(a)});
+}
 
-  const D=$("#docs");D.textContent="";$("#docSec").hidden=!d.documents.length;
-  d.documents.forEach(doc=>{const c2=el("div","card");const a=el("a","doc");a.href="#";
-    if(doc.image){const i=el("img");i.src=doc.image;i.alt="";a.append(i)}
-    const t=el("div");t.append(el("b",null,doc.titre),el("small",null,doc.sousTitre||""));a.append(t,el("span","go","Ouvrir"));
-    a.addEventListener("click",async e=>{e.preventDefault();const src=doc.pdf||doc.image;if(!src)return;const blob=await (await fetch(src)).blob();const u=URL.createObjectURL(blob);window.open(u,"_blank")||(location.href=u)});
-    c2.append(a);D.append(c2)});
+function itemRow(it){
+  const r=el("div","row"+(it.statut==="publie"?" done":""));
+  const dd=el("div","day");if(it.date){const d=pd(it.date);dd.append(el("small",null,d.toLocaleDateString("fr-FR",{weekday:"short"}).replace(".","")),el("b",null,d.getDate()))}else dd.append(el("small",null,"—"));
+  const t=el("div","t");t.append(el("b",null,it.titre));
+  const s=el("small");s.append(it.format+(it.bonus?" · bonus":"")+" · ");
+  if(it.statut==="decale"&&it.decale){s.append(el("span","a","Décalé au "+fD(it.decale.au)));if(it.decale.motif)s.append(" · "+it.decale.motif)}else s.append(LBL[it.statut]);
+  t.append(s);const st=el("span","st");st.innerHTML=SVG[it.statut];st.setAttribute("aria-label",LBL[it.statut]);
+  r.append(dd,t,st);return r;
+}
+function renderList(){
+  $("#sWeek").setAttribute("aria-pressed",String(mode==="week"));$("#sMonth").setAttribute("aria-pressed",String(mode==="month"));
+  const L=$("#list");L.textContent="";
+  let weeks=D.semaines;
+  if(mode==="week"){const w=D.semaines.find(w=>!w.fin||w.fin>=todayIso)||D.semaines[D.semaines.length-1];weeks=w?[w]:[]}
+  weeks.forEach(w=>{const h=el("div","h");const done=w.items.filter(i=>!i.bonus&&i.statut==="publie").length,tot=w.items.filter(i=>!i.bonus).length;
+    h.append(document.createTextNode(w.nom+" · "+w.dates),el("span",null,done+"/"+tot));L.append(h);
+    const g=el("div","group");w.items.slice().sort((a,b)=>(a.date||"9").localeCompare(b.date||"9")).forEach(it=>g.append(itemRow(it)));L.append(g)});
+  if(!weeks.length)L.append(el("div","empty","Aucun contenu cette semaine."));
 }
 })();
 </script>

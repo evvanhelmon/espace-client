@@ -104,7 +104,7 @@ def build(export, blobs, now):
                           "date": dates[0] if dates else None, "bonus": bool(it.get("bonus"))})
             if not it.get("bonus"):
                 counts[st] += 1
-        semaines.append({"nom": w["nom"], "dates": w["dates"], "items": items})
+        semaines.append({"nom": w["nom"], "dates": w["dates"], "fin": w.get("fin"), "items": items})
 
     in_month = [c for c in contenus.values() if (c.get("date") or "").startswith(month)]
     volume = {
