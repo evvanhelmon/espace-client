@@ -150,6 +150,8 @@ a.row{text-decoration:none;color:inherit}
   .vis{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (hover:hover){.vis button img{transition:transform .25s ease}.vis button:hover img{transform:scale(1.03)}.group a.row:hover{background:#faf9fc}}
+.row .t .ig{color:var(--violet);font-weight:600}
+.lb .igbtn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:18px;background:rgba(255,255,255,.14);color:#fff;text-decoration:none;font-family:var(--title);font-size:13px;font-weight:600}
 @media (prefers-reduced-motion:no-preference){.ring circle.p{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}}
 </style>
 </head>
@@ -182,7 +184,7 @@ a.row{text-decoration:none;color:inherit}
 
   <section id="needSec"><div class="h">À nous transmettre</div><div class="group" id="need"></div></section>
   <section id="visSec"><div class="h">Visuels<span id="visNote"></span></div><div class="vis" id="vis"></div></section>
-  <section id="docSec"><div class="h">Document</div><div class="group" id="doc"></div></section>
+  <section id="docSec"><div class="h">Documents</div><div class="group" id="doc"></div></section>
   </div></div>
 
   <div class="foot">Molko Design · contact@molkodesign.ch<br><button type="button" id="logout">Se déconnecter</button></div>
@@ -286,7 +288,7 @@ function openLb(ix){
   LB.n=imgs.length;LB.i=0;
   const I=$("#lbInfo");I.textContent="";I.append(el("b",null,f.titre||""));
   const meta=[{post:"Post",carrousel:"Carrousel",reel:"Reel"}[f.format]||"",f.date?pd(f.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}):"",f.heure?f.heure.replace(":"," h "):"",LBL[f.statut]||""].filter(Boolean).join(" · ");
-  I.append(el("small",null,meta));if(f.legende)I.append(el("p",null,f.legende));
+  I.append(el("small",null,meta));if(f.lien){const a=el("a","igbtn","Voir sur Instagram ↗");a.href=f.lien;a.target="_blank";a.rel="noopener";I.append(a)}if(f.legende)I.append(el("p",null,f.legende));
   $("#lbPrev").hidden=$("#lbNext").hidden=imgs.length<2;
   $("#lb").hidden=false;document.body.style.overflow="hidden";T.scrollLeft=0;syncLb();
 }
@@ -304,7 +306,9 @@ function itemRow(it){
   const s=el("small");s.append(it.format+(it.bonus?" · bonus":"")+" · ");
   if(it.statut==="decale"&&it.decale){s.append(el("span","a","Décalé au "+fD(it.decale.au)));if(it.decale.motif)s.append(" · "+it.decale.motif)}else{const lb=el("span",null,LBL[it.statut]);if(it.statut==="publie")lb.style.color="var(--pub)";if(it.statut==="programme")lb.style.color="var(--sch)";lb.style.fontWeight=it.statut==="preparation"?"":"600";s.append(lb)}
   t.append(s);const st=el("span","st");st.innerHTML=SVG[it.statut];st.setAttribute("aria-label",LBL[it.statut]);
-  r.append(dd,t,st);return r;
+  r.append(dd,t,st);
+  if(it.lien){const a=el("a","row"+(it.statut==="publie"?" done":""));a.href=it.lien;a.target="_blank";a.rel="noopener";a.setAttribute("aria-label",it.titre+", voir sur Instagram");while(r.firstChild)a.append(r.firstChild);s.append(" · ",el("span","ig","Voir ↗"));return a}
+  return r;
 }
 function renderList(){
   $("#sWeek").setAttribute("aria-pressed",String(mode==="week"));$("#sMonth").setAttribute("aria-pressed",String(mode==="month"));

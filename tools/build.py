@@ -118,8 +118,9 @@ def build(export, blobs, now):
             else:
                 st, info = "preparation", None
             dates = sorted([c["date"] for c in cs if c.get("date")])
+            lien = next((c.get("lien") for c in cs if c.get("lien")), "") if st == "publie" else ""
             items.append({"titre": it["titre"], "format": it.get("format", ""), "statut": st, "decale": info,
-                          "date": dates[0] if dates else None, "bonus": bool(it.get("bonus"))})
+                          "date": dates[0] if dates else None, "bonus": bool(it.get("bonus")), "lien": lien})
             if not it.get("bonus"):
                 counts[st] += 1
         semaines.append({"nom": w["nom"], "dates": w["dates"], "fin": w.get("fin"), "items": items})
@@ -155,6 +156,7 @@ def build(export, blobs, now):
                      "titre": c.get("titre", ""), "publie": c["_eff"] == "publie",
                      "statut": "publie" if c["_eff"] == "publie" else ("programme" if c["_eff"] == "programme" else "preparation"),
                      "legende": c.get("legende", "") if c["_eff"] in ("publie", "programme") else "",
+                     "lien": c.get("lien", "") if c["_eff"] == "publie" else "",
                      "image": data_uri(p, 360), "images": [data_uri(q, 720) for q in slides]})
 
     attentes = [{"texte": t["texte"], "detail": t.get("detail", ""), "echeance": t.get("echeance", "")}
@@ -169,6 +171,15 @@ def build(export, blobs, now):
         docs.append({"titre": "Calendrier éditorial", "sousTitre": mois_txt,
                      "pdf": pdf_titled(pdf, titre_pdf) if pdf else None,
                      "fichier": titre_pdf + ".pdf"})
+
+    for d in sorted(documents.values(), key=lambda d: d.get("mois", ""), reverse=True):
+        if d.get("type") == "calendrier" or d.get("afficheMois") != month:
+            continue
+        pdfp = blob_path(blobs, d.get("pdfId"))
+        if pdfp:
+            nom = "Avomarks – " + d.get("titre", "Document") + " – " + d.get("sousTitre", "")
+            docs.append({"titre": d.get("titre", "Document"), "sousTitre": d.get("sousTitre", ""),
+                         "pdf": pdf_titled(pdfp, nom), "fichier": nom + ".pdf"})
 
     return {"client": "Avomarks", "mois": month, "maj": now.isoformat(timespec="minutes"),
             "compteur": counts, "semaines": semaines, "volume": volume, "prochaines": prochaines[:8],
