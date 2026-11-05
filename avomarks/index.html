@@ -15,7 +15,7 @@
 /* Suivi client : titre large, anneau de progression, sélecteur Semaine / Mois, listes groupées à filets fins */
 :root{
   --bg:#f5f5f7; --card:#ffffff; --ink:#111015; --sub:#6e6b78; --faint:#a9a6b3; --hair:rgba(17,16,21,.09);
-  --violet:#7a3ff2; --deep:#2a0e63; --amber:#b86e00; --amber-bg:#fdf3e3;
+  --violet:#7a3ff2; --deep:#2a0e63; --pub:#7a3ff2; --sch:#e0559f; --amber:#b86e00; --amber-bg:#fdf3e3;
   --title:"Montserrat",-apple-system,system-ui,sans-serif; --accent:"Playfair Display",Georgia,serif; --body:"Raleway",-apple-system,system-ui,sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -45,7 +45,7 @@ h1 em{font-family:var(--accent);font-style:italic;font-weight:500;color:var(--vi
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--bg);color:var(--sub);font-variant-numeric:tabular-nums}
 .chip i{width:7px;height:7px;border-radius:50%;background:currentColor}
-.chip.v{color:var(--violet)} .chip.a{color:var(--amber)}
+.chip.v{color:var(--sch);background:#fdebf4} .chip.p{color:var(--pub);background:#f1ebff} .chip.a{color:var(--amber)}
 
 /* Segmented */
 .seg{display:flex;background:rgba(118,118,128,.12);border-radius:9px;padding:2px;margin:26px 0 0}
@@ -178,7 +178,7 @@ const todayIso=(()=>{const d=new Date();return d.getFullYear()+"-"+pad(d.getMont
 const LBL={publie:"Publié",programme:"Programmé",preparation:"En préparation",decale:"Décalé"};
 const SVG={
   publie:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#7a3ff2"/><path d="M7 12.4l3.2 3.1L17 8.8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  programme:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#7a3ff2" stroke-width="1.6"/><path d="M12 7v5l3 2" fill="none" stroke="#7a3ff2" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  programme:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="#fdebf4" stroke="#e0559f" stroke-width="1.8"/><path d="M12 7.2v5l3.4 2.1" fill="none" stroke="#e0559f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   preparation:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#c8c5d0" stroke-width="1.6" stroke-dasharray="3 3"/></svg>',
   decale:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#fdf3e3"/><path d="M8 12h8m-3-3l3 3-3 3" fill="none" stroke="#b86e00" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
 const STORE="molko-avomarks-code";
@@ -216,15 +216,15 @@ function render(){
   const c=D.compteur,total=c.publie+c.programme+c.decale+c.preparation,pct=total?Math.round(c.publie/total*100):0;
   const S=$("#sum");S.textContent="";
   const R=2*Math.PI*42;const ring=el("div","ring");
-  ring.innerHTML='<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#efeaf9" stroke-width="10"/><circle class="p" cx="50" cy="50" r="42" fill="none" stroke="#7a3ff2" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+R+'" stroke-dashoffset="'+R+'"/></svg>';
+  ring.innerHTML='<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#efeaf9" stroke-width="10"/><circle class="p q" cx="50" cy="50" r="42" fill="none" stroke="#e0559f" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+R+'" stroke-dashoffset="'+R+'"/><circle class="p" cx="50" cy="50" r="42" fill="none" stroke="#7a3ff2" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+R+'" stroke-dashoffset="'+R+'"/></svg>';
   ring.append(el("div","pct",pct+" %"));
   const tx=el("div","txt");const n=el("div","n");n.append(String(c.publie),el("span",null," / "+total));
   tx.append(n,el("div","l","contenus publiés comme annoncé"));
   const ch=el("div","chips");
   const chip=(cls,txt)=>{const s=el("span","chip "+cls);s.append(el("i"),document.createTextNode(txt));ch.append(s)};
-  if(c.programme)chip("v",c.programme+" programmés");if(c.decale)chip("a",c.decale+" décalé"+(c.decale>1?"s":""));if(c.preparation)chip("",c.preparation+" en préparation");
+  chip("p",c.publie+" publiés");if(c.programme)chip("v",c.programme+" programmés");if(c.decale)chip("a",c.decale+" décalé"+(c.decale>1?"s":""));if(c.preparation)chip("",c.preparation+" en préparation");
   tx.append(ch);S.append(ring,tx);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{ring.querySelector(".p").style.strokeDashoffset=R*(1-pct/100)}));
+  const pq=total?(c.publie+c.programme)/total:0;requestAnimationFrame(()=>requestAnimationFrame(()=>{ring.querySelector(".p.q").style.strokeDashoffset=R*(1-pq);ring.querySelector(".p:not(.q)").style.strokeDashoffset=R*(1-pct/100)}));
   S.setAttribute("aria-label",c.publie+" contenus publiés sur "+total);
 
   renderList();
@@ -270,7 +270,7 @@ function itemRow(it){
   const dd=el("div","day");if(it.date){const d=pd(it.date);dd.append(el("small",null,d.toLocaleDateString("fr-FR",{weekday:"short"}).replace(".","")),el("b",null,d.getDate()))}else dd.append(el("small",null,"—"));
   const t=el("div","t");t.append(el("b",null,it.titre));
   const s=el("small");s.append(it.format+(it.bonus?" · bonus":"")+" · ");
-  if(it.statut==="decale"&&it.decale){s.append(el("span","a","Décalé au "+fD(it.decale.au)));if(it.decale.motif)s.append(" · "+it.decale.motif)}else s.append(LBL[it.statut]);
+  if(it.statut==="decale"&&it.decale){s.append(el("span","a","Décalé au "+fD(it.decale.au)));if(it.decale.motif)s.append(" · "+it.decale.motif)}else{const lb=el("span",null,LBL[it.statut]);if(it.statut==="publie")lb.style.color="var(--pub)";if(it.statut==="programme")lb.style.color="var(--sch)";lb.style.fontWeight=it.statut==="preparation"?"":"600";s.append(lb)}
   t.append(s);const st=el("span","st");st.innerHTML=SVG[it.statut];st.setAttribute("aria-label",LBL[it.statut]);
   r.append(dd,t,st);return r;
 }
