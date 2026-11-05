@@ -123,6 +123,33 @@ a.row{text-decoration:none;color:inherit}
 .lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:22px;display:none}
 @media (hover:hover) and (pointer:fine){.lb .nav{display:grid;place-items:center}}
 .lb .prev{left:14px}.lb .next{right:14px}
+
+/* Visionneuse : mise en page robuste */
+.lb .stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+.lb .trackwrap{flex:1 1 0;min-height:0;position:relative}
+.lb .track{position:absolute;inset:0}
+.lb .slide{height:100%;padding:0 10px}
+.lb .slide img{max-height:100%;max-width:100%;width:auto;height:auto}
+.lb .info{flex:0 0 auto}
+@media (min-width:900px){
+  .lb{flex-direction:row}
+  .lb .stage{flex:1 1 auto}
+  .lb .slide{padding:0 70px 10px}
+  .lb .info{flex:0 0 380px;max-height:none;height:100%;overflow:auto;background:#141318;border-left:1px solid rgba(255,255,255,.08);padding:calc(64px + env(safe-area-inset-top,0px)) 28px 28px}
+  .lb .info b{font-size:20px}
+  .lb .info p{font-size:15px}
+}
+/* Deux colonnes sur grand écran */
+@media (min-width:980px){
+  .wrap{max-width:1120px;padding-top:32px}
+  h1{font-size:44px}
+  .cols{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:0 36px;align-items:start}
+  .colB section:first-child .h{margin-top:20px}
+  .sum{padding:24px}
+  .row{min-height:60px}
+  .vis{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (hover:hover){.vis button img{transition:transform .25s ease}.vis button:hover img{transform:scale(1.03)}.group a.row:hover{background:#faf9fc}}
 @media (prefers-reduced-motion:no-preference){.ring circle.p{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}}
 </style>
 </head>
@@ -146,23 +173,28 @@ a.row{text-decoration:none;color:inherit}
   <h1 id="title"></h1>
   <div class="maj" id="maj"></div>
 
+  <div class="cols"><div class="colA">
   <div class="sum" id="sum"></div>
 
   <div class="seg" role="group" aria-label="Période"><button type="button" id="sWeek" aria-pressed="true">Cette semaine</button><button type="button" id="sMonth" aria-pressed="false">Tout le mois</button></div>
   <div id="list"></div>
+  </div><div class="colB">
 
   <section id="needSec"><div class="h">À nous transmettre</div><div class="group" id="need"></div></section>
   <section id="visSec"><div class="h">Visuels<span id="visNote"></span></div><div class="vis" id="vis"></div></section>
   <section id="docSec"><div class="h">Document</div><div class="group" id="doc"></div></section>
+  </div></div>
 
   <div class="foot">Molko Design · contact@molkodesign.ch<br><button type="button" id="logout">Se déconnecter</button></div>
 </div>
 
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Visuel">
-  <div class="bar"><span id="lbCount"></span><button type="button" id="lbClose">Fermer</button></div>
-  <div class="track" id="lbTrack"></div>
-  <button type="button" class="nav prev" id="lbPrev" aria-label="Image précédente">‹</button><button type="button" class="nav next" id="lbNext" aria-label="Image suivante">›</button>
-  <div class="dots" id="lbDots"></div>
+  <div class="stage">
+    <div class="bar"><span id="lbCount"></span><button type="button" id="lbClose">Fermer</button></div>
+    <div class="trackwrap"><div class="track" id="lbTrack"></div>
+    <button type="button" class="nav prev" id="lbPrev" aria-label="Image précédente">‹</button><button type="button" class="nav next" id="lbNext" aria-label="Image suivante">›</button></div>
+    <div class="dots" id="lbDots"></div>
+  </div>
   <div class="info" id="lbInfo"></div>
 </div>
 
