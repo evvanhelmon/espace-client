@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Avomarks">
+<meta name="theme-color" content="#ffffff">
+<title>Avomarks · Espace client Molko Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Playfair+Display:ital,wght@1,500&family=Raleway:wght@400;500;600&display=swap">
+<style>
+/* Espace client Molko Design : en-tête de marque, compteur du calendrier annoncé, puis sections empilées en cartes blanches sur fond lilas */
+:root{
+  --bg:#f6f4ff; --surface:#ffffff; --ink:#0d0a1a; --muted:#6b6680; --line:#e7e2f5;
+  --violet:#7a3ff2; --deep:#2a0e63; --lilac:#ece6ff;
+  --ok:#1f9d5c; --sched:#7a3ff2; --prep:#9a95ad; --dec:#c47a00;
+  --title:"Montserrat",system-ui,sans-serif; --accent:"Playfair Display",Georgia,serif; --body:"Raleway",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(48px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.brand{display:flex;justify-content:space-between;align-items:center;font-family:var(--title);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--deep)}
+.brand span{color:var(--muted);font-weight:600;letter-spacing:.06em}
+h1{font-family:var(--title);font-weight:700;font-size:clamp(30px,7vw,40px);line-height:1.05;letter-spacing:-.01em;margin:18px 0 6px;text-wrap:balance}
+h1 em,h2 em{font-family:var(--accent);font-style:italic;font-weight:500;color:var(--violet)}
+.maj{color:var(--muted);font-size:14px}
+h2{font-family:var(--title);font-weight:700;font-size:20px;margin:34px 0 12px;letter-spacing:-.005em}
+.card{background:var(--surface);border-radius:18px;padding:18px;box-shadow:0 1px 0 rgba(42,14,99,.04)}
+.note{color:var(--muted);font-size:14px;margin:8px 4px 0}
+
+/* Compteur */
+.hero{background:var(--deep);color:#fff;border-radius:22px;padding:22px;margin-top:22px}
+.hero .big{font-family:var(--title);font-weight:700;font-size:48px;line-height:1;font-variant-numeric:tabular-nums}
+.hero .big small{font-size:22px;opacity:.6}
+.hero p{margin:6px 0 16px;opacity:.85}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.14)}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:14px}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend b{font-family:var(--title);font-variant-numeric:tabular-nums}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+
+/* Semaines */
+.week{margin-top:10px}
+.week h3{font-family:var(--title);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 4px 8px;font-weight:600}
+.item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0;padding-top:2px}
+.item:last-child{padding-bottom:2px}
+.ic{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:14px;font-weight:700}
+.ic.publie{background:var(--ok);color:#fff}
+.ic.programme{background:var(--lilac);color:var(--violet)}
+.ic.preparation{border:1.5px dashed var(--prep);color:var(--prep)}
+.ic.decale{background:#fff2dc;color:var(--dec)}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;font-weight:600}
+.item .t small{color:var(--muted);font-size:13px}
+.item .st{font-size:12px;font-weight:600;white-space:nowrap;text-align:right}
+.st.publie{color:var(--ok)}.st.programme{color:var(--violet)}.st.preparation{color:var(--prep)}.st.decale{color:var(--dec)}
+
+/* Volume */
+.vol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vol .card b{font-family:var(--title);font-size:34px;line-height:1;display:block;font-variant-numeric:tabular-nums}
+.vol .card span{color:var(--muted);font-size:14px}
+
+/* Prochaines */
+.next{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;max-width:100%}
+.nx{flex:none;width:150px;scroll-snap-align:start}
+.nx .img{aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--lilac);display:grid;place-items:center;color:var(--violet);font-family:var(--title);font-weight:700;font-size:13px;text-align:center;padding:10px;max-width:100%}
+.nx .img img{width:100%;height:100%;object-fit:cover;display:block}
+.nx b{display:block;font-size:14px;font-weight:600;margin-top:8px;line-height:1.25}
+.nx small{color:var(--muted);font-size:13px}
+
+/* Feed */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;border-radius:16px;overflow:hidden;background:var(--surface)}
+.grid div{position:relative;aspect-ratio:4/5;max-width:100%;background:var(--lilac)}
+.grid img{width:100%;height:100%;object-fit:cover;display:block}
+.grid .soon{position:absolute;left:6px;bottom:6px;background:rgba(42,14,99,.82);color:#fff;font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px}
+.grid svg{position:absolute;top:7px;right:7px;width:18px;height:18px;color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+
+/* Attentes */
+.ask{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ask:first-child{border-top:0;padding-top:2px}
+.ask:last-child{padding-bottom:2px}
+.ask .ic{background:#fff2dc;color:var(--dec)}
+.ask b{display:block;font-weight:600}
+.ask small{color:var(--muted);font-size:13px}
+
+/* Documents */
+.doc{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+.doc img{width:96px;border-radius:8px;border:1px solid var(--line);flex:none}
+.doc b{display:block;font-weight:600}
+.doc small{color:var(--muted);font-size:13px}
+.doc .go{margin-left:auto;color:var(--violet);font-weight:600;font-size:14px;white-space:nowrap}
+
+/* Code d'accès */
+.gate{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));text-align:center}
+.gate .box{width:100%;max-width:360px}
+.gate h1{font-size:30px;margin:14px 0 8px}
+.gate p{color:var(--muted);margin:0 0 22px}
+.gate input{width:100%;padding:15px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);font-size:20px;text-align:center;letter-spacing:.2em;outline:none}
+.gate input:focus{border-color:var(--violet)}
+.gate button{width:100%;margin-top:12px;padding:15px;border:0;border-radius:14px;background:var(--deep);color:#fff;font-family:var(--title);font-weight:700;font-size:16px;cursor:pointer}
+.gate .err{color:#c0362c;font-size:14px;margin-top:12px;min-height:20px}
+.foot{margin-top:40px;text-align:center;color:var(--muted);font-size:13px}
+.foot a{color:var(--violet)}
+:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="box">
+    <div class="brand" style="justify-content:center">MOLKO DESIGN</div>
+    <h1>Espace <em>Avomarks</em></h1>
+    <p>Saisis le code d'accès transmis par Molko Design.</p>
+    <form id="gateForm">
+      <input id="code" type="password" inputmode="text" autocomplete="current-password" aria-label="Code d'accès" placeholder="Code">
+      <button type="submit" id="go">Accéder</button>
+    </form>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <div class="brand">MOLKO DESIGN × AVOMARKS<span id="moisTag"></span></div>
+  <h1 id="title">Suivi de <em>novembre</em></h1>
+  <div class="maj" id="maj"></div>
+
+  <div class="hero" id="hero"></div>
+
+  <h2>Calendrier <em>annoncé</em></h2>
+  <div id="weeks"></div>
+  <p class="note">Le calendrier envoyé en début de mois sert de référence. Si un contenu doit être déplacé, il reste dans sa semaine d'origine avec sa nouvelle date.</p>
+
+  <h2>Volume <em>livré</em></h2>
+  <div class="vol" id="vol"></div>
+  <p class="note" id="devis"></p>
+
+  <section id="nextSec"><h2>Prochaines <em>publications</em></h2><div class="next" id="next"></div></section>
+
+  <section id="feedSec"><h2>Aperçu du <em>feed</em></h2><div class="grid" id="feed"></div></section>
+
+  <section id="askSec"><h2>Ce qu'on attend <em>de vous</em></h2><div class="card" id="asks"></div></section>
+
+  <section id="docSec"><h2><em>Documents</em></h2><div id="docs"></div></section>
+
+  <div class="foot">Molko Design · <span>contact@molkodesign.ch</span><br><a href="#" id="logout">Se déconnecter</a></div>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const fmt=s=>{if(!s)return"";const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})};
+const fmtD=s=>{if(!s)return"";const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})};
+const LBL={publie:"Publié",programme:"Programmé",preparation:"En préparation",decale:"Décalé"};
+const ICO={publie:"✓",programme:"◷",preparation:"",decale:"→"};
+const STORE="molko-avomarks-code";
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+
+async function decrypt(pack,code){
+  const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(code),"PBKDF2",false,["deriveKey"]);
+  const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(pack.salt),iterations:pack.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+  const buf=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(pack.iv)},key,b64(pack.data));
+  return JSON.parse(new TextDecoder().decode(buf));
+}
+let pack=null;
+async function getPack(){if(pack)return pack;const r=await fetch("data.enc.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("fetch");pack=await r.json();return pack}
+async function unlock(code,silent){
+  $("#err").textContent="";$("#go").disabled=true;$("#go").textContent="Ouverture…";
+  try{const p=await getPack();const data=await decrypt(p,code);try{localStorage.setItem(STORE,code)}catch(e){}render(data);$("#gate").hidden=true;$("#app").hidden=false}
+  catch(e){if(!silent)$("#err").textContent=e&&e.message==="fetch"?"Impossible de charger le suivi. Vérifie ta connexion et réessaie.":"Code incorrect.";try{if(silent)localStorage.removeItem(STORE)}catch(_){}}
+  finally{$("#go").disabled=false;$("#go").textContent="Accéder"}
+}
+$("#gateForm").addEventListener("submit",e=>{e.preventDefault();const c=$("#code").value.trim();if(c)unlock(c,false)});
+$("#logout").addEventListener("click",e=>{e.preventDefault();try{localStorage.removeItem(STORE)}catch(_){}location.reload()});
+try{const saved=localStorage.getItem(STORE);if(saved)unlock(saved,true)}catch(e){}
+
+function render(d){
+  const [y,m]=d.mois.split("-").map(Number);
+  $("#title").textContent="";$("#title").append("Suivi de ",el("em",null,MOIS[m-1]));
+  $("#moisTag").textContent=MOIS[m-1]+" "+y;
+  const maj=new Date(d.maj);$("#maj").textContent="Mis à jour le "+maj.toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+" à "+maj.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}).replace(":"," h ");
+  const c=d.compteur,total=c.publie+c.programme+c.decale+c.preparation;
+  const h=$("#hero");h.textContent="";
+  const big=el("div","big");big.append(String(c.publie),el("small",null," / "+total));
+  h.append(big,el("p",null,"contenus du calendrier publiés comme annoncé"));
+  const bar=el("div","bar");[["publie","var(--ok)"],["programme","#b69bff"],["decale","#f0b45a"]].forEach(([k,col])=>{const i=el("i");i.style.width=(total?c[k]/total*100:0)+"%";i.style.background=col;bar.append(i)});h.append(bar);
+  const lg=el("div","legend");[["publie","Publiés","var(--ok)"],["programme","Programmés","#b69bff"],["decale","Décalés","#f0b45a"],["preparation","En préparation","rgba(255,255,255,.35)"]].forEach(([k,l,col])=>{if(k==="decale"&&!c[k])return;const s=el("span");const dt=el("i","dot");dt.style.background=col;s.append(dt,el("b",null,c[k]),document.createTextNode(" "+l.toLowerCase()));lg.append(s)});h.append(lg);
+
+  const W=$("#weeks");W.textContent="";
+  d.semaines.forEach(w=>{
+    const box=el("div","week");box.append(el("h3",null,w.nom+" · "+w.dates));const card=el("div","card");
+    w.items.forEach(it=>{const r=el("div","item");r.append(el("span","ic "+it.statut,ICO[it.statut]));
+      const t=el("div","t");t.append(el("b",null,it.titre));
+      let sub=it.format+(it.bonus?" · bonus":"");if(it.statut==="decale"&&it.decale){sub+=" · nouvelle date : "+fmtD(it.decale.au);if(it.decale.motif)sub+=" · "+it.decale.motif}
+      else if(it.date&&it.statut!=="preparation")sub+=" · "+fmt(it.date);
+      t.append(el("small",null,sub));r.append(t,el("span","st "+it.statut,LBL[it.statut]));card.append(r)});
+    box.append(card);W.append(box)});
+
+  const v=$("#vol");v.textContent="";
+  [[d.volume.feed,"publications dans le feed"],[d.volume.stories,"stories publiées"]].forEach(([n,l])=>{const cc=el("div","card");cc.append(el("b",null,n),el("span",null,l));v.append(cc)});
+  $("#devis").textContent="Prévu au devis : "+d.volume.devis+". "+d.volume.feedPrevu+" publications dans le feed sont planifiées ce mois-ci.";
+
+  const N=$("#next");N.textContent="";$("#nextSec").hidden=!d.prochaines.length;
+  d.prochaines.forEach(p=>{const x=el("div","nx");const im=el("div","img");if(p.image){const i=el("img");i.src=p.image;i.alt="";im.append(i)}else im.textContent=p.format;
+    x.append(im,el("b",null,p.titre),el("small",null,p.format+" · "+fmt(p.date)+(p.heure?" · "+p.heure.replace(":"," h "):"")));N.append(x)});
+
+  const F=$("#feed");F.textContent="";$("#feedSec").hidden=!d.feed.length;
+  d.feed.forEach(f=>{const cell=el("div");const i=el("img");i.src=f.image;i.alt="";cell.append(i);
+    if(f.format==="reel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.5v7l6-3.5z" fill="currentColor"/></svg>');
+    if(f.format==="carrousel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2.5"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>');
+    if(!f.publie)cell.append(el("span","soon",fmtD(f.date)));F.append(cell)});
+
+  const A=$("#asks");A.textContent="";$("#askSec").hidden=!d.attentes.length;
+  d.attentes.forEach(a=>{const r=el("div","ask");r.append(el("span","ic","!"));const t=el("div");t.append(el("b",null,a.texte));
+    const sub=[a.echeance?"Avant le "+fmtD(a.echeance):"",a.detail].filter(Boolean).join(" · ");if(sub)t.append(el("small",null,sub));r.append(t);A.append(r)});
+
+  const D=$("#docs");D.textContent="";$("#docSec").hidden=!d.documents.length;
+  d.documents.forEach(doc=>{const c2=el("div","card");const a=el("a","doc");a.href="#";
+    if(doc.image){const i=el("img");i.src=doc.image;i.alt="";a.append(i)}
+    const t=el("div");t.append(el("b",null,doc.titre),el("small",null,doc.sousTitre||""));a.append(t,el("span","go","Ouvrir"));
+    a.addEventListener("click",async e=>{e.preventDefault();const src=doc.pdf||doc.image;if(!src)return;const blob=await (await fetch(src)).blob();const u=URL.createObjectURL(blob);window.open(u,"_blank")||(location.href=u)});
+    c2.append(a);D.append(c2)});
+}
+})();
+</script>
+</body>
+</html>
