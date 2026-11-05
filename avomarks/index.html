@@ -119,7 +119,7 @@ h2{font-family:var(--title);font-weight:700;font-size:20px;margin:34px 0 12px;le
     <h1>Espace <em>Avomarks</em></h1>
     <p>Saisis le code d'accès transmis par Molko Design.</p>
     <form id="gateForm">
-      <input id="code" type="password" inputmode="text" autocomplete="current-password" aria-label="Code d'accès" placeholder="Code">
+      <input id="code" type="password" inputmode="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="current-password" aria-label="Code d'accès" placeholder="Code">
       <button type="submit" id="go">Accéder</button>
     </form>
     <div class="err" id="err" role="alert"></div>
@@ -178,7 +178,7 @@ async function unlock(code,silent){
   catch(e){if(!silent)$("#err").textContent=e&&e.message==="fetch"?"Impossible de charger le suivi. Vérifie ta connexion et réessaie.":"Code incorrect.";try{if(silent)localStorage.removeItem(STORE)}catch(_){}}
   finally{$("#go").disabled=false;$("#go").textContent="Accéder"}
 }
-$("#gateForm").addEventListener("submit",e=>{e.preventDefault();const c=$("#code").value.trim();if(c)unlock(c,false)});
+$("#gateForm").addEventListener("submit",e=>{e.preventDefault();const c=$("#code").value.trim().toLowerCase().replace(/\s+/g,"");if(c)unlock(c,false)});
 $("#logout").addEventListener("click",e=>{e.preventDefault();try{localStorage.removeItem(STORE)}catch(_){}location.reload()});
 try{const saved=localStorage.getItem(STORE);if(saved)unlock(saved,true)}catch(e){}
 
