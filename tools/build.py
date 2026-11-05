@@ -53,6 +53,24 @@ def data_uri(path, max_w=None):
         return "data:%s;base64,%s" % (mime, base64.b64encode(fh.read()).decode())
 
 
+MOIS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+
+
+def pdf_titled(path, title):
+    """Renvoie le PDF en data URI avec un titre propre dans ses métadonnées."""
+    try:
+        from pypdf import PdfReader, PdfWriter
+        w = PdfWriter(clone_from=PdfReader(path))
+        w.add_metadata({"/Title": title, "/Author": "Molko Design"})
+        buf = io.BytesIO()
+        w.write(buf)
+        data = buf.getvalue()
+    except Exception:
+        with open(path, "rb") as fh:
+            data = fh.read()
+    return "data:application/pdf;base64," + base64.b64encode(data).decode()
+
+
 def when(c):
     if not c.get("date"):
         return None
@@ -132,7 +150,12 @@ def build(export, blobs, now):
         p = blob_path(blobs, c.get("apercuId"))
         if not p:
             continue
-        feed.append({"format": c.get("format"), "date": c.get("date"), "publie": c["_eff"] == "publie", "image": data_uri(p, 420)})
+        slides = [p] + [q for q in (blob_path(blobs, i) for i in c.get("apercusSuivants", [])) if q]
+        feed.append({"format": c.get("format"), "date": c.get("date"), "heure": c.get("heure") or "",
+                     "titre": c.get("titre", ""), "publie": c["_eff"] == "publie",
+                     "statut": "publie" if c["_eff"] == "publie" else ("programme" if c["_eff"] == "programme" else "preparation"),
+                     "legende": c.get("legende", "") if c["_eff"] in ("publie", "programme") else "",
+                     "image": data_uri(p, 360), "images": [data_uri(q, 720) for q in slides]})
 
     attentes = [{"texte": t["texte"], "detail": t.get("detail", ""), "echeance": t.get("echeance", "")}
                 for t in sorted(taches.values(), key=lambda t: (t.get("echeance") or "9999", t.get("cree", 0)))
@@ -141,9 +164,11 @@ def build(export, blobs, now):
     docs = []
     if cal:
         img, pdf = blob_path(blobs, cal.get("imageId")), blob_path(blobs, cal.get("pdfId"))
-        docs.append({"titre": "Calendrier éditorial", "sousTitre": cal.get("sousTitre", ""),
-                     "image": data_uri(img) if img else None, "pdf": data_uri(pdf) if pdf else None,
-                     "fichier": "Avomarks_Calendrier_%s.pdf" % month})
+        mois_txt = MOIS_FR[int(month[5:7]) - 1].capitalize() + " " + month[:4]
+        titre_pdf = "Avomarks – Calendrier éditorial – " + mois_txt
+        docs.append({"titre": "Calendrier éditorial", "sousTitre": mois_txt,
+                     "pdf": pdf_titled(pdf, titre_pdf) if pdf else None,
+                     "fichier": titre_pdf + ".pdf"})
 
     return {"client": "Avomarks", "mois": month, "maj": now.isoformat(timespec="minutes"),
             "compteur": counts, "semaines": semaines, "volume": volume, "prochaines": prochaines[:8],

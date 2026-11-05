@@ -101,6 +101,28 @@ a.row{text-decoration:none;color:inherit}
 .gate .go{width:100%;margin-top:10px;padding:15px;border-radius:12px;background:var(--ink);color:#fff;font-family:var(--title);font-weight:600;font-size:16px}
 .gate .go[disabled]{opacity:.6}
 .gate .err{color:#c0362c;font-size:14px;margin-top:12px;min-height:20px}
+
+/* Visionneuse */
+.vis button{display:block;width:100%;height:100%;position:relative}
+.vis span,.vis svg{pointer-events:none}
+.lb{position:fixed;inset:0;z-index:50;background:#000;color:#fff;display:flex;flex-direction:column}
+.lb .bar{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));font-family:var(--title);font-size:14px;font-weight:600}
+.lb .bar button{color:#fff;font-family:var(--title);font-weight:600;font-size:15px;padding:6px 0}
+.lb .bar span{color:rgba(255,255,255,.6);font-variant-numeric:tabular-nums}
+.lb .track{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.lb .track::-webkit-scrollbar{display:none}
+.lb .slide{flex:0 0 100%;scroll-snap-align:center;display:grid;place-items:center;padding:0 8px}
+.lb .slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.lb .dots{display:flex;justify-content:center;gap:6px;padding:12px 0 4px;min-height:22px}
+.lb .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35)}
+.lb .dots i.on{background:#fff}
+.lb .info{padding:10px max(20px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));max-height:34vh;overflow:auto}
+.lb .info b{display:block;font-family:var(--title);font-size:17px;font-weight:600}
+.lb .info small{display:block;color:rgba(255,255,255,.62);font-size:13px;margin-top:3px}
+.lb .info p{white-space:pre-wrap;font-size:14.5px;line-height:1.45;color:rgba(255,255,255,.88);margin:10px 0 0}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:22px;display:none}
+@media (hover:hover) and (pointer:fine){.lb .nav{display:grid;place-items:center}}
+.lb .prev{left:14px}.lb .next{right:14px}
 @media (prefers-reduced-motion:no-preference){.ring circle.p{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}}
 </style>
 </head>
@@ -134,6 +156,14 @@ a.row{text-decoration:none;color:inherit}
   <section id="docSec"><div class="h">Document</div><div class="group" id="doc"></div></section>
 
   <div class="foot">Molko Design · contact@molkodesign.ch<br><button type="button" id="logout">Se déconnecter</button></div>
+</div>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Visuel">
+  <div class="bar"><span id="lbCount"></span><button type="button" id="lbClose">Fermer</button></div>
+  <div class="track" id="lbTrack"></div>
+  <button type="button" class="nav prev" id="lbPrev" aria-label="Image précédente">‹</button><button type="button" class="nav next" id="lbNext" aria-label="Image suivante">›</button>
+  <div class="dots" id="lbDots"></div>
+  <div class="info" id="lbInfo"></div>
 </div>
 
 <script>
@@ -205,15 +235,35 @@ function render(){
 
   const V=$("#vis");V.textContent="";$("#visSec").hidden=!D.feed.length;
   $("#visNote").textContent=D.feed.length?D.feed.filter(f=>f.publie).length+" publiés · "+D.feed.filter(f=>!f.publie).length+" à venir":"";
-  D.feed.forEach(f=>{const cell=el("div");const i=el("img");i.src=f.image;i.alt="";cell.append(i);
+  D.feed.forEach((f,ix)=>{const cell=el("div");const btn=el("button");btn.type="button";btn.setAttribute("aria-label",(f.titre||"Visuel")+(f.images&&f.images.length>1?", "+f.images.length+" images":""));btn.addEventListener("click",()=>openLb(ix));const i=el("img");i.src=f.image;i.alt="";btn.append(i);cell.append(btn);
     if(f.format==="reel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.5v7l6-3.5z" fill="currentColor"/></svg>');
     if(f.format==="carrousel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2.5"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>');
     if(!f.publie)cell.append(el("span",null,fD(f.date)));V.append(cell)});
 
   const Dc=$("#doc");Dc.textContent="";$("#docSec").hidden=!D.documents.length;
-  D.documents.forEach(d=>{const a=el("a","row");a.href="#";a.append(el("span","pdf","PDF"));const t3=el("div","t");t3.append(el("b",null,d.titre),el("small",null,(d.sousTitre||"").split(" · ")[0]));a.append(t3,el("span","chev","›"));
-    a.addEventListener("click",async e=>{e.preventDefault();const src=d.pdf||d.image;if(!src)return;const u=URL.createObjectURL(await (await fetch(src)).blob());const w=window.open(u,"_blank");if(!w)location.href=u});Dc.append(a)});
+  D.documents.forEach(d=>{const a=el("a","row");a.href="#";a.append(el("span","pdf","PDF"));const t3=el("div","t");t3.append(el("b",null,d.titre),el("small",null,"PDF · "+(d.sousTitre||"").split(" · ")[0]));a.append(t3,el("span","chev","›"));
+    a.addEventListener("click",async e=>{e.preventDefault();const src=d.pdf||d.image;if(!src)return;const bl=await (await fetch(src)).blob();const f=new File([bl],d.fichier||"Calendrier.pdf",{type:bl.type});const u=URL.createObjectURL(f);const w=window.open(u,"_blank");if(!w){const dl=document.createElement("a");dl.href=u;dl.download=f.name;document.body.append(dl);dl.click();dl.remove()}});Dc.append(a)});
 }
+
+
+const LB={i:0,n:0};
+function openLb(ix){
+  const f=D.feed[ix];const imgs=(f.images&&f.images.length)?f.images:[f.image];
+  const T=$("#lbTrack");T.textContent="";imgs.forEach(src=>{const sl=el("div","slide");const im=el("img");im.src=src;im.alt="";sl.append(im);T.append(sl)});
+  const Dt=$("#lbDots");Dt.textContent="";if(imgs.length>1)imgs.forEach(()=>Dt.append(el("i")));
+  LB.n=imgs.length;LB.i=0;
+  const I=$("#lbInfo");I.textContent="";I.append(el("b",null,f.titre||""));
+  const meta=[{post:"Post",carrousel:"Carrousel",reel:"Reel"}[f.format]||"",f.date?pd(f.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}):"",f.heure?f.heure.replace(":"," h "):"",LBL[f.statut]||""].filter(Boolean).join(" · ");
+  I.append(el("small",null,meta));if(f.legende)I.append(el("p",null,f.legende));
+  $("#lbPrev").hidden=$("#lbNext").hidden=imgs.length<2;
+  $("#lb").hidden=false;document.body.style.overflow="hidden";T.scrollLeft=0;syncLb();
+}
+function syncLb(){$("#lbCount").textContent=LB.n>1?(LB.i+1)+" / "+LB.n:"";[...$("#lbDots").children].forEach((d,k)=>d.classList.toggle("on",k===LB.i))}
+function goLb(k){const T=$("#lbTrack");LB.i=Math.max(0,Math.min(LB.n-1,k));T.scrollTo({left:LB.i*T.clientWidth,behavior:"smooth"});syncLb()}
+function closeLb(){$("#lb").hidden=true;document.body.style.overflow=""}
+$("#lbTrack").addEventListener("scroll",()=>{const T=$("#lbTrack");const k=Math.round(T.scrollLeft/Math.max(1,T.clientWidth));if(k!==LB.i){LB.i=k;syncLb()}},{passive:true});
+$("#lbClose").addEventListener("click",closeLb);$("#lbPrev").addEventListener("click",()=>goLb(LB.i-1));$("#lbNext").addEventListener("click",()=>goLb(LB.i+1));
+document.addEventListener("keydown",e=>{if($("#lb").hidden)return;if(e.key==="Escape")closeLb();if(e.key==="ArrowRight")goLb(LB.i+1);if(e.key==="ArrowLeft")goLb(LB.i-1)});
 
 function itemRow(it){
   const r=el("div","row"+(it.statut==="publie"?" done":""));
