@@ -219,7 +219,7 @@ function render(d){
     if(!f.publie)cell.append(el("span","soon",fmtD(f.date)));F.append(cell)});
 
   const A=$("#asks");A.textContent="";$("#askSec").hidden=!d.attentes.length;
-  d.attentes.forEach(a=>{const r=el("div","ask");r.append(el("span","ic","!"));const t=el("div");t.append(el("b",null,a.texte));
+  d.attentes.forEach(a=>{const r=el("div","ask");const opt=/^facultatif/i.test(a.detail||"");const ic=el("span","ic",opt?"+":"!");if(opt){ic.style.background="var(--lilac)";ic.style.color="var(--violet)"}r.append(ic);const t=el("div");t.append(el("b",null,a.texte));
     const sub=[a.echeance?"Avant le "+fmtD(a.echeance):"",a.detail].filter(Boolean).join(" · ");if(sub)t.append(el("small",null,sub));r.append(t);A.append(r)});
 
   const D=$("#docs");D.textContent="";$("#docSec").hidden=!d.documents.length;
