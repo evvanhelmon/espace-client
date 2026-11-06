@@ -152,6 +152,8 @@ a.row{text-decoration:none;color:inherit}
 @media (hover:hover){.vis button img{transition:transform .25s ease}.vis button:hover img{transform:scale(1.03)}.group a.row:hover{background:#faf9fc}}
 .row .t .ig{color:var(--violet);font-weight:600}
 .lb .igbtn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:18px;background:rgba(255,255,255,.14);color:#fff;text-decoration:none;font-family:var(--title);font-size:13px;font-weight:600}
+.vis span.views{display:inline-flex;align-items:center;gap:4px}
+.vis span.views svg{position:static;width:13px;height:13px;filter:none}
 @media (prefers-reduced-motion:no-preference){.ring circle.p{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}}
 </style>
 </head>
@@ -215,6 +217,8 @@ const SVG={
   programme:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="#fdebf4" stroke="#e0559f" stroke-width="1.8"/><path d="M12 7.2v5l3.4 2.1" fill="none" stroke="#e0559f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   preparation:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#c8c5d0" stroke-width="1.6" stroke-dasharray="3 3"/></svg>',
   decale:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#fdf3e3"/><path d="M8 12h8m-3-3l3 3-3 3" fill="none" stroke="#b86e00" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
+const EYE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const fmtV=n=>n>=10000?Math.round(n/1000)+" k":n>=1000?(n/1000).toFixed(1).replace(".",",").replace(",0","")+" k":String(n);
 const STORE="molko-avomarks-code";
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 let D=null,mode="week";
@@ -272,7 +276,7 @@ function render(){
   D.feed.forEach((f,ix)=>{const cell=el("div");const btn=el("button");btn.type="button";btn.setAttribute("aria-label",(f.titre||"Visuel")+(f.images&&f.images.length>1?", "+f.images.length+" images":""));btn.addEventListener("click",()=>openLb(ix));const i=el("img");i.src=f.image;i.alt="";btn.append(i);cell.append(btn);
     if(f.format==="reel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.5v7l6-3.5z" fill="currentColor"/></svg>');
     if(f.format==="carrousel")cell.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2.5"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>');
-    if(!f.publie)cell.append(el("span",null,fD(f.date)));V.append(cell)});
+    if(!f.publie)cell.append(el("span",null,fD(f.date)));else if(f.vues!=null){const v=el("span","views");v.innerHTML=EYE;v.append(fmtV(f.vues));cell.append(v)}V.append(cell)});
 
   const Dc=$("#doc");Dc.textContent="";$("#docSec").hidden=!D.documents.length;
   D.documents.forEach(d=>{const a=el("a","row");a.href="#";a.append(el("span","pdf","PDF"));const t3=el("div","t");t3.append(el("b",null,d.titre),el("small",null,"PDF · "+(d.sousTitre||"").split(" · ")[0]));a.append(t3,el("span","chev","›"));
@@ -287,7 +291,7 @@ function openLb(ix){
   const Dt=$("#lbDots");Dt.textContent="";if(imgs.length>1)imgs.forEach(()=>Dt.append(el("i")));
   LB.n=imgs.length;LB.i=0;
   const I=$("#lbInfo");I.textContent="";I.append(el("b",null,f.titre||""));
-  const meta=[{post:"Post",carrousel:"Carrousel",reel:"Reel"}[f.format]||"",f.date?pd(f.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}):"",f.heure?f.heure.replace(":"," h "):"",LBL[f.statut]||""].filter(Boolean).join(" · ");
+  const meta=[{post:"Post",carrousel:"Carrousel",reel:"Reel"}[f.format]||"",f.date?pd(f.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}):"",f.heure?f.heure.replace(":"," h "):"",LBL[f.statut]||"",f.vues!=null?f.vues.toLocaleString("fr-FR")+" vues":""].filter(Boolean).join(" · ");
   I.append(el("small",null,meta));if(f.lien){const a=el("a","igbtn","Voir sur Instagram ↗");a.href=f.lien;a.target="_blank";a.rel="noopener";I.append(a)}if(f.legende)I.append(el("p",null,f.legende));
   $("#lbPrev").hidden=$("#lbNext").hidden=imgs.length<2;
   $("#lb").hidden=false;document.body.style.overflow="hidden";T.scrollLeft=0;syncLb();

@@ -157,6 +157,7 @@ def build(export, blobs, now):
                      "statut": "publie" if c["_eff"] == "publie" else ("programme" if c["_eff"] == "programme" else "preparation"),
                      "legende": c.get("legende", "") if c["_eff"] in ("publie", "programme") else "",
                      "lien": c.get("lien", "") if c["_eff"] == "publie" else "",
+                     "vues": c.get("vues") if c["_eff"] == "publie" else None,
                      "image": data_uri(p, 360), "images": [data_uri(q, 720) for q in slides]})
 
     attentes = [{"texte": t["texte"], "detail": t.get("detail", ""), "echeance": t.get("echeance", "")}
