@@ -91,6 +91,9 @@ def build(export, blobs, now):
     contenus = load(os.path.join(export, "contenus"))
     taches = load(os.path.join(export, "taches"))
     documents = load(os.path.join(export, "documents"))
+    # Contenus internes : listés dans un document de type "masques", jamais montrés au client.
+    masques = {i for d in documents.values() if d.get("type") == "masques" for i in d.get("ids", [])}
+    contenus = {k: c for k, c in contenus.items() if k not in masques and not c.get("prive")}
     for k, c in contenus.items():
         c["_id"] = k
         c["_eff"] = effective(c, now)
