@@ -93,7 +93,9 @@ def build(export, blobs, now):
     documents = load(os.path.join(export, "documents"))
     # Contenus internes : listés dans un document de type "masques", jamais montrés au client.
     masques = {i for d in documents.values() if d.get("type") == "masques" for i in d.get("ids", [])}
-    contenus = {k: c for k, c in contenus.items() if k not in masques and not c.get("prive")}
+    # Un contenu masqué marqué "afficherUneFoisPublie" n'apparaît qu'une fois publié (en bonus).
+    contenus = {k: c for k, c in contenus.items() if not c.get("prive") and (
+        k not in masques or (c.get("afficherUneFoisPublie") and effective(c, now) == "publie"))}
     for k, c in contenus.items():
         c["_id"] = k
         c["_eff"] = effective(c, now)
@@ -127,6 +129,17 @@ def build(export, blobs, now):
             if not it.get("bonus"):
                 counts[st] += 1
         semaines.append({"nom": w["nom"], "dates": w["dates"], "fin": w.get("fin"), "items": items})
+
+    # Bonus publiés hors calendrier envoyé : ajoutés à la semaine de leur date.
+    cites = {i for w in (cal or {}).get("semaines", []) for it in w.get("items", []) for i in it.get("ids", [])}
+    for c in sorted(contenus.values(), key=lambda c: c.get("date") or ""):
+        if not c.get("afficherUneFoisPublie") or c["_id"] in cites or c["_eff"] != "publie":
+            continue
+        sem = next((s for s in semaines if s.get("fin") and (c.get("date") or "") <= s["fin"]), None)
+        if sem is None or (c.get("date") or "") < month + "-01":
+            continue
+        sem["items"].append({"titre": c.get("titre", ""), "format": c.get("format", ""), "statut": "publie",
+                             "decale": None, "date": c.get("date"), "bonus": True, "lien": c.get("lien", "")})
 
     in_month = [c for c in contenus.values() if (c.get("date") or "").startswith(month)]
     volume = {
