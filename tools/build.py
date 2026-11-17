@@ -138,8 +138,10 @@ def build(export, blobs, now):
         sem = next((s for s in semaines if s.get("fin") and (c.get("date") or "") <= s["fin"]), None)
         if sem is None or (c.get("date") or "") < month + "-01":
             continue
-        sem["items"].append({"titre": c.get("titre", ""), "format": c.get("format", ""), "statut": "publie",
+        sem["items"].append({"titre": c.get("titre", ""), "format": FLABEL.get(c.get("format"), c.get("format", "")), "statut": "publie",
                              "decale": None, "date": c.get("date"), "bonus": True, "lien": c.get("lien", "")})
+
+    counts["bonus"] = sum(1 for w in semaines for it in w["items"] if it.get("bonus") and it["statut"] == "publie")
 
     in_month = [c for c in contenus.values() if (c.get("date") or "").startswith(month)]
     volume = {
