@@ -125,7 +125,8 @@ def build(export, blobs, now):
             dates = sorted([c["date"] for c in cs if c.get("date")])
             lien = next((c.get("lien") for c in cs if c.get("lien")), "") if st == "publie" else ""
             items.append({"titre": it["titre"], "format": it.get("format", ""), "statut": st, "decale": info,
-                          "date": dates[0] if dates else None, "bonus": bool(it.get("bonus")), "lien": lien})
+                          "date": dates[0] if dates else None, "bonus": bool(it.get("bonus")), "lien": lien,
+                          "remplace": it.get("remplace", "")})
             if not it.get("bonus"):
                 counts[st] += 1
         semaines.append({"nom": w["nom"], "dates": w["dates"], "fin": w.get("fin"), "items": items})

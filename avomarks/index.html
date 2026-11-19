@@ -308,7 +308,7 @@ function itemRow(it){
   const r=el("div","row"+(it.statut==="publie"?" done":""));
   const dd=el("div","day");if(it.date){const d=pd(it.date);dd.append(el("small",null,d.toLocaleDateString("fr-FR",{weekday:"short"}).replace(".","")),el("b",null,d.getDate()))}else dd.append(el("small",null,"—"));
   const t=el("div","t");t.append(el("b",null,it.titre));
-  const s=el("small");if(it.bonus)s.append(el("span","bpill","Bonus")," ");s.append(it.format+" · ");
+  const s=el("small");if(it.bonus)s.append(el("span","bpill","Bonus")," ");s.append(it.format+" · ");if(it.remplace)s.append("Remplacé par : "+it.remplace+" · ");
   if(it.statut==="decale"&&it.decale){s.append(el("span","a","Décalé au "+fD(it.decale.au)));if(it.decale.motif)s.append(" · "+it.decale.motif)}else{const lb=el("span",null,LBL[it.statut]);if(it.statut==="publie")lb.style.color="var(--pub)";if(it.statut==="programme")lb.style.color="var(--sch)";lb.style.fontWeight=it.statut==="preparation"?"":"600";s.append(lb)}
   t.append(s);const st=el("span","st");st.innerHTML=SVG[it.statut];st.setAttribute("aria-label",LBL[it.statut]);
   r.append(dd,t,st);
