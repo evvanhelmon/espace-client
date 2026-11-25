@@ -219,7 +219,7 @@ const SVG={
   preparation:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#c8c5d0" stroke-width="1.6" stroke-dasharray="3 3"/></svg>',
   decale:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#fdf3e3"/><path d="M8 12h8m-3-3l3 3-3 3" fill="none" stroke="#b86e00" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
 const EYE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
-const fmtV=n=>n>=10000?Math.round(n/1000)+" k":n>=1000?(n/1000).toFixed(1).replace(".",",").replace(",0","")+" k":String(n);
+const fmtV=n=>{const f=(x,u)=>x.toFixed(1).replace(".",",").replace(",0","")+" "+u;return n>=1e6?f(n/1e6,"M"):n>=1000?f(n/1000,"k"):String(n)};
 const STORE="molko-avomarks-code";
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 let D=null,mode="week";
