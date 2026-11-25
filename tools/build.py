@@ -122,7 +122,8 @@ def build(export, blobs, now):
                 st, info = "programme", None
             else:
                 st, info = "preparation", None
-            dates = sorted([c["date"] for c in cs if c.get("date")])
+            reste = [c for c in cs if c["_eff"] != "publie"] or cs
+            dates = sorted([c["date"] for c in reste if c.get("date")])
             lien = next((c.get("lien") for c in cs if c.get("lien")), "") if st == "publie" else ""
             items.append({"titre": it["titre"], "format": it.get("format", ""), "statut": st, "decale": info,
                           "date": dates[0] if dates else None, "bonus": bool(it.get("bonus")), "lien": lien,
